@@ -1,4 +1,4 @@
-### simplify.py
+# simplify.py
 
 simplify.py is a simple port of simplify.js by Vladimir Agafonkin
 ([https://github.com/mourner/simplify-js](https://github.com/mourner/simplify-js))
@@ -6,7 +6,7 @@ simplify.py is a simple port of simplify.js by Vladimir Agafonkin
 This fork speeds up the code. Because of the huge overhead in Python's dict, and
 few codes use dicts for points, I dropped the dict support.
 
-### Usage
+## Usage
 
 ```python
 import simplify
@@ -26,7 +26,7 @@ Examples
 
 `highestQuality (optional, True by default)`: Flag to exclude the distance pre-processing. Produces higher quality results, but runs slower.
 
-### 3D points
+## 3D points
 
-Change the alias for 2D points: `simplify.changemode('2d')`
-Change the alias for 3D points: `simplify.changemode('3d')`
+* Change the alias for 2D points: `simplify.changemode('2d')`
+* Change the alias for 3D points: `simplify.changemode('3d')`
