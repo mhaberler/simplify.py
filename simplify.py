@@ -10,187 +10,263 @@ try:
 except NameError:
     rangefunc = range
 
-def getSquareDistance2d(p1, p2):
+
+def defaultAccessor(sequence, index, **kwargs):
     """
-    Square distance between two points (x,y)
+    given a sequence of objects and an index, return a sequence
+    of 2 (2D) or 3 coordinates (3D) of the object.
+    Extraneous values are ignored.
+
+    Any extra kwargs to simplify() are passed to this function.
     """
-    dx = p1[0] - p2[0]
-    dy = p1[1] - p2[1]
+    # if 'argToAccessor' in kwargs:
+    #     print(kwargs['argToAccessor'])
+    return sequence[index]
 
-    return dx * dx + dy * dy
+
+class Simplify(object):
+
+    def getSquareDistance2d(self, points, p1, p2, **kwargs):
+        """
+        Square distance between two points (x,y)
+        """
+        (p1_0, p1_1, *_) = self.get(points, p1, **kwargs)
+        (p2_0, p2_1, *_) = self.get(points, p2, **kwargs)
+        dx = p1_0 - p2_0
+        dy = p1_1 - p2_1
+        return dx * dx + dy * dy
+
+    def getSquareDistance3d(self, points, p1, p2, **kwargs):
+        """
+        Square distance between two points (x,y,z)
+        """
+
+        (p1_0, p1_1, p1_2, *_) = self.get(points, p1, **kwargs)
+        (p2_0, p2_1, p2_2, *_) = self.get(points, p2, **kwargs)
+
+        dx = p1_0 - p2_0
+        dy = p1_1 - p2_1
+        dz = p1_2 - p2_2
+        return dx * dx + dy * dy + dz * dz
+
+    def getSquareSegmentDistance2d(self, points, p, p1, p2, **kwargs):
+        """
+        Square distance between point and a segment
+        """
+        (x, y, *_) = self.get(points, p1, **kwargs)
+        (p2_0, p2_1, *_) = self.get(points, p2, **kwargs)
+        (p_0, p_1, *_) = self.get(points, p, **kwargs)
+
+        dx = p2_0 - x
+        dy = p2_1 - y
+
+        if dx or dy:
+            t = ((p_0 - x) * dx + (p_1 - y) * dy) / (dx * dx + dy * dy)
+
+            if t > 1:
+                x = p2_0
+                y = p2_1
+            elif t > 0:
+                x += dx * t
+                y += dy * t
+
+        dx = p_0 - x
+        dy = p_1 - y
+        return dx * dx + dy * dy
+
+    def getSquareSegmentDistance3d(self, points, p, p1, p2, **kwargs):
+        """
+        Square distance between point and a segment
+        """
+        (x, y, z, *_) = self.get(points, p1, **kwargs)
+        (p2_0, p2_1, p2_2, *_) = self.get(points, p2, **kwargs)
+
+        dx = p2_0 - x
+        dy = p2_1 - y
+        dz = p2_2 - z
+
+        (p_0, p_1, p_2, *_) = self.get(points, p, **kwargs)
+
+        if dx or dy:
+            t = ((p_0 - x) * dx + (p_1 - y) * dy + (p_2 - z) * dz) / \
+                (dx * dx + dy * dy + dz * dz)
+
+            if t > 1:
+                x = p2_0
+                y = p2_1
+                z = p2_2
+            elif t > 0:
+                x += dx * t
+                y += dy * t
+                z += dz * t
+
+        dx = p_0 - x
+        dy = p_1 - y
+        dz = p_2 - z
+        return dx * dx + dy * dy + dz * dz
+
+    def simplifyRadialDistance(self, points, point_range, tolerance, **kwargs):
+
+        first = point_range[0]
+        last = point_range[-1]
+        prev_point = 0
+        markers = [0]
+
+        for i in point_range:  # rangefunc(first, last):
+
+            if self.getSquareDistance(points, i, prev_point, **kwargs) > tolerance:
+                markers.append(i)
+                prev_point = i
+
+        if prev_point != i:
+            markers.append(i)
+        return markers
+
+    def simplifyDouglasPeucker(self, points, point_range, tolerance, **kwargs):
+
+        first = point_range[0]
+        last = point_range[-1]
+
+        first_stack = []
+        last_stack = []
+
+        markers = [first, last]
+
+        while last:
+            max_sqdist = 0
+
+            for i in rangefunc(first, last):
+                sqdist = self.getSquareSegmentDistance(
+                    points, i, first, last, **kwargs)
+
+                if sqdist > max_sqdist:
+                    index = i
+                    max_sqdist = sqdist
+
+            if max_sqdist > tolerance:
+                markers.append(index)
+
+                first_stack.append(first)
+                last_stack.append(index)
+
+                first_stack.append(index)
+                last_stack.append(last)
+
+            # Can pop an empty array in Javascript, but not Python,
+            # so check the list first
+            first = first_stack.pop() if first_stack else None
+            last = last_stack.pop() if last_stack else None
+
+        markers.sort()
+        return markers
+
+    def simplify(self,
+                 points,
+                 tolerance=0.1,
+                 highestQuality=True,
+                 returnMarkers=False,
+                 **kwargs):
+        """
+        Simplifies a sequence of points.
+
+        `points`: A sequences of objects containing coordinates in some shape or form. The algorithm requires
+        an accessor method as instantiation parameter. See the documentation of defaultAccessor for details.
+
+        `tolerance (optional, 0.1 by default)`: Affects the amount of simplification that occurs (the smaller, the less simplification).
+
+        `highestQuality (optional, True by default)`: Flag to exclude the distance pre-processing. Produces higher quality results, but runs slower.
+
+        `returnMarkers`: if set, return a list of ints denoting the sequence elements in the simplified list.
+        By default, return a list of objects taken from the original sequence.
+
+        `kwargs`: Any extra keyword arguments are passed to the accessor function.
+        """
+        sqtolerance = tolerance * tolerance
+        markers = list(range(0, len(points)))
+
+        if not highestQuality:
+            markers = self.simplifyRadialDistance(
+                points, markers, sqtolerance, **kwargs)
+
+        markers = self.simplifyDouglasPeucker(
+            points, markers, sqtolerance, **kwargs)
+
+        if returnMarkers:
+            return markers
+        else:
+            return [points[i] for i in markers]
 
 
-def getSquareDistance3d(p1, p2):
+class Simplify3D(Simplify):
+
+    def __init__(self, accessor=defaultAccessor):
+        self.get = accessor
+        self.getSquareDistance = self.getSquareDistance3d
+        self.getSquareSegmentDistance = self.getSquareSegmentDistance3d
+
+
+class Simplify2D(Simplify):
+
+    def __init__(self, accessor=defaultAccessor):
+        self.get = accessor
+        self.getSquareDistance = self.getSquareDistance2d
+        self.getSquareSegmentDistance = self.getSquareSegmentDistance2d
+
+
+def featureAccessor(sequence, index, **kwargs):
     """
-    Square distance between two points (x,y,z)
+    accessor for a FeatureCollection of point features
     """
-    dx = p1[0] - p2[0]
-    dy = p1[1] - p2[1]
-    dz = p1[2] - p2[2]
+    return sequence[index].geometry.coordinates
 
-    return dx * dx + dy * dy + dz * dz
-
-
-def getSquareSegmentDistance2d(p, p1, p2):
-    """
-    Square distance between point and a segment
-    """
-    x = p1[0]
-    y = p1[1]
-
-    dx = p2[0] - x
-    dy = p2[1] - y
-
-    if dx or dy:
-        t = ((p[0] - x) * dx + (p[1] - y) * dy) / (dx * dx + dy * dy)
-
-        if t > 1:
-            x = p2[0]
-            y = p2[1]
-        elif t > 0:
-            x += dx * t
-            y += dy * t
-
-    dx = p[0] - x
-    dy = p[1] - y
-
-    return dx * dx + dy * dy
-
-
-def getSquareSegmentDistance3d(p, p1, p2):
-    """
-    Square distance between point and a segment
-    """
-    x = p1[0]
-    y = p1[1]
-    z = p1[2]
-
-    dx = p2[0] - x
-    dy = p2[1] - y
-    dz = p2[2] - z
-
-    if dx or dy:
-        t = ((p[0] - x) * dx + (p[1] - y) * dy + (p[2] - z) * dz) / \
-            (dx * dx + dy * dy + dz * dz)
-
-        if t > 1:
-            x = p2[0]
-            y = p2[1]
-            z = p2[2]
-        elif t > 0:
-            x += dx * t
-            y += dy * t
-            z += dz * t
-
-    dx = p[0] - x
-    dy = p[1] - y
-    dz = p[2] - z
-
-    return dx * dx + dy * dy + dz * dz
-
-
-def changemode(mode):
-    """
-    Change points to 2D/3D.
-    """
-    if mode == '2d':
-        getSquareDistance = getSquareDistance2d
-        getSquareSegmentDistance = getSquareSegmentDistance2d
-    elif mode == '3d':
-        getSquareDistance = getSquareDistance3d
-        getSquareSegmentDistance = getSquareSegmentDistance3d
-    else:
-        # use your own functions
-        pass
-
-
-def simplifyRadialDistance(points, tolerance):
-
-    prev_point = points[0]
-    new_points = [prev_point]
-
-    for point in points:
-
-        if getSquareDistance(point, prev_point) > tolerance:
-            new_points.append(point)
-            prev_point = point
-
-    if prev_point != point:
-        new_points.append(point)
-
-    return new_points
-
-
-def simplifyDouglasPeucker(points, tolerance):
-
-    first = 0
-    last = len(points) - 1
-
-    first_stack = []
-    last_stack = []
-
-    markers = [first, last]
-
-    while last:
-        max_sqdist = 0
-
-        for i in rangefunc(first, last):
-            sqdist = getSquareSegmentDistance(
-                points[i], points[first], points[last])
-
-            if sqdist > max_sqdist:
-                index = i
-                max_sqdist = sqdist
-
-        if max_sqdist > tolerance:
-            markers.append(index)
-
-            first_stack.append(first)
-            last_stack.append(index)
-
-            first_stack.append(index)
-            last_stack.append(last)
-
-        # Can pop an empty array in Javascript, but not Python,
-        # so check the list first
-        first = first_stack.pop() if first_stack else None
-        last = last_stack.pop() if last_stack else None
-
-    markers.sort()
-
-    return [points[i] for i in markers]
-
-
-def simplify(points, tolerance=0.1, highestQuality=True):
-    """
-    Simplifies the points.
-
-    `points`: A sequences of sequences of at least two numbers (int or float), the first
-        two elements of each inner sequence are treated as coordinates. Extra elements
-        (e.g. z coordinate, name, etc) of point sequences are ignored but preserved for
-        points which remain.
-
-    Examples
-      * tuple of tuple - `((1,1), (2,3), (3,5), (5,5))`
-      * tuple of array - `([1,1,'first'], [2,3,'second'], [5,8,'third'])`
-
-    `tolerance (optional, 0.1 by default)`: Affects the amount of simplification that occurs (the smaller, the less simplification).
-
-    `highestQuality (optional, True by default)`: Flag to exclude the distance pre-processing. Produces higher quality results, but runs slower.
-    """
-    sqtolerance = tolerance * tolerance
-
-    if not highestQuality:
-        points = simplifyRadialDistance(points, sqtolerance)
-
-    points = simplifyDouglasPeucker(points, sqtolerance)
-
-    return points
-
-getSquareDistance = getSquareDistance2d
-getSquareSegmentDistance = getSquareSegmentDistance2d
 
 if __name__ == '__main__':
+
+    tolerance = 0.01
+    highestQuality = False
+
+    import geojson
+
+    # contains a FeatureCollection of Points
+    fn = "radiosonde.geojson"
+    with open(fn, 'r') as file:
+        s = file.read()
+        gj = geojson.loads(s.encode("utf8"))
+
+    # the data structure of the original code:
+    # a list of triplets (lat, lon, alt)
+    points = list()
+    i = 0
+    for f in gj.features:
+        coord = f.geometry.coordinates
+        coord.append(i)
+        points.append(coord)
+        i += 1
+
+    # this format can be handled by the default accessor
+    s = Simplify3D()
+    r = s.simplify(points,
+                   tolerance=tolerance,
+                   highestQuality=highestQuality,
+                   returnMarkers=True,
+                   argToAccessor="demo")  # passed to accessor
+
+    print(f"from {len(gj.features)} -> {len(r)}: markers={r}")
+
+    # now use a custom accessor to directly access
+    # the points of the FeatureCollection
+    s2 = Simplify3D(accessor=featureAccessor)
+    r = s2.simplify(gj.features,
+                    tolerance=tolerance,
+                    highestQuality=highestQuality,
+                    returnMarkers=False)
+    print(f"from {len(gj.features)} -> {len(r)}: points={r}")
+
     import timeit
-    points = ((1, 1), (2, 3), (3, 5), (5, 5))
-    print(timeit.repeat(lambda: simplify(points)))
+    iterations = 10000
+    secs = timeit.timeit(lambda: s2.simplify(gj.features,
+                                           tolerance=tolerance,
+                                           highestQuality=highestQuality),
+                        number=iterations)
+    d = (secs/iterations) * 1e6
+    print(f"time to simplify {len(gj.features)} points: {d:.0f} uS ({d/len(gj.features):.0f} uS/point)")
