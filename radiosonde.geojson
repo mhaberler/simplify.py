@@ -1,0 +1,425 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.53608,
+          32.81248,
+          715
+        ]
+      },
+      "properties": {
+        "frequency": 401.999,
+        "pressure": 938.3,
+        "voltage": 4.9,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505625.143726,
+        "humidity": 32.7,
+        "temp": 12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.5377,
+          32.81215,
+          1100
+        ]
+      },
+      "properties": {
+        "frequency": 401.999,
+        "pressure": 896,
+        "voltage": 4.9,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505564.094179,
+        "humidity": 37.9,
+        "temp": 8.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.53818,
+          32.81079,
+          1948
+        ]
+      },
+      "properties": {
+        "frequency": 401.999,
+        "pressure": 808,
+        "voltage": 4.9,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505503.113691,
+        "humidity": 24.1,
+        "temp": 3.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.53552,
+          32.80856,
+          2849
+        ]
+      },
+      "properties": {
+        "frequency": 401.999,
+        "pressure": 723,
+        "voltage": 4.9,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505442.092166,
+        "humidity": 4.3,
+        "temp": 0.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.51824,
+          32.80365,
+          5002
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 549.2,
+        "voltage": 4.9,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505320.110847,
+        "humidity": 13.6,
+        "temp": -12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.51046,
+          32.80146,
+          5689
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 502.8,
+        "voltage": 4.8,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505259.104673,
+        "humidity": 14.4,
+        "temp": -17.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.49687,
+          32.79725,
+          5767
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 496.6,
+        "voltage": 5.1,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505198.015211,
+        "humidity": 13,
+        "temp": -18.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.4848,
+          32.79335,
+          5450
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 517.6,
+        "voltage": 5.1,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505137.122146,
+        "humidity": 12.8,
+        "temp": -15.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.47339,
+          32.7901,
+          5099
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 542.8,
+        "voltage": 5.1,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505076.039862,
+        "humidity": 11.3,
+        "temp": -12.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.46202,
+          32.7883,
+          4754
+        ]
+      },
+      "properties": {
+        "frequency": 401.998,
+        "pressure": 567.7,
+        "voltage": 5.1,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611505015.078808,
+        "humidity": 8.1,
+        "temp": -10.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.44553,
+          32.78381,
+          3998
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 625.2,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504893.06736,
+        "humidity": 12.9,
+        "temp": -4.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.43984,
+          32.78292,
+          3707
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 648.8,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504832.159937,
+        "humidity": 2.6,
+        "temp": -2.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.43253,
+          32.78116,
+          3344
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 679.1,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504771.113316,
+        "humidity": 11.6,
+        "temp": -2.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.42653,
+          32.77827,
+          2999
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 709.3,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504710.034402,
+        "humidity": 4.3,
+        "temp": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.42125,
+          32.77518,
+          2657
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 740.1,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504649.009161,
+        "humidity": 3.8,
+        "temp": 1.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.41788,
+          32.77257,
+          2348
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 769,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504588.133932,
+        "humidity": 2.1,
+        "temp": 3.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.4173,
+          32.77011,
+          1989
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 803.9,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504527.132109,
+        "humidity": 25.4,
+        "temp": 3.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.41679,
+          32.76841,
+          1612
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 842,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504466.11549,
+        "humidity": 23.2,
+        "temp": 6.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.41694,
+          32.76781,
+          1280
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 876.7,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504405.147379,
+        "humidity": 27.6,
+        "temp": 8.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.41877,
+          32.76699,
+          942
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 913,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504344.06991,
+        "humidity": 35.2,
+        "temp": 10.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.4194,
+          32.76685,
+          873
+        ]
+      },
+      "properties": {
+        "frequency": 401.997,
+        "pressure": 920.6,
+        "voltage": 5.2,
+        "serial": "RS_IMET-ED7C6E6C",
+        "time": 1611504331.743289,
+        "humidity": 34.6,
+        "temp": 11.2
+      }
+    }
+  ]
+}
